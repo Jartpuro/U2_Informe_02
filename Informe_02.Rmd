@@ -1,0 +1,96 @@
+---
+title: "Informe_02"
+author: "Jhon Alexander Rojas Tavera"
+date: "2023-09-12"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r, echo=TRUE}
+# Paso 1: Generar muestras de diferentes tamaños (n = 20, 50, 100, 1000)
+n_values <- c(20, 50, 100, 1000)
+
+```
+```{r, echo=TRUE}
+# Paso 2: Definir el valor del parámetro desconocido
+parametro <- 8
+
+# Crear una función para calcular los estimadores
+calcular_estimadores <- function(n, parametro) {
+  # Paso 1: Generar una muestra aleatoria de tamaño n
+  muestra <- rexp(n, rate = 1/parametro)
+  
+  # Paso 3: Calcular los estimadores θ1, θ2, θ3 y θ4
+  estimador1 <- sum(muestra[1:4]) / sum(muestra[5:8])
+  estimador2 <- sum(muestra[1:4] * c(1, 2, 3, 4)) / 5
+  estimador3 <- sum(muestra[1:4]) / 4
+  estimador4 <- (min(muestra) + max(muestra)) / 2
+  
+  # Paso 2: Calcular el sesgo, la eficiencia y la consistencia de los estimadores
+  sesgo1 <- mean(estimador1) - parametro
+  sesgo2 <- mean(estimador2) - parametro
+  sesgo3 <- mean(estimador3) - parametro
+  sesgo4 <- mean(estimador4) - parametro
+  
+  var1 <- var(estimador1)
+  var2 <- var(estimador2)
+  var3 <- var(estimador3)
+  var4 <- var(estimador4)
+  
+  # Paso 2: Calcular el sesgo, la eficiencia y la consistencia de los estimadores
+  eficiencia1 <- var1
+  eficiencia2 <- var2
+  eficiencia3 <- var3
+  eficiencia4 <- var4
+  
+  consistencia1 <- mean((estimador1 - parametro)^2)
+  consistencia2 <- mean((estimador2 - parametro)^2)
+  consistencia3 <- mean((estimador3 - parametro)^2)
+  consistencia4 <- mean((estimador4 - parametro)^2)
+  
+  # Paso 2: Crear un data frame con los resultados
+  resultados <- data.frame(
+    Tamaño_Muestra = n,
+    Estimador_1 = estimador1,
+    Estimador_2 = estimador2,
+    Estimador_3 = estimador3,
+    Estimador_4 = estimador4,
+    Sesgo_1 = sesgo1,
+    Sesgo_2 = sesgo2,
+    Sesgo_3 = sesgo3,
+    Sesgo_4 = sesgo4,
+    Eficiencia_1 = eficiencia1,
+    Eficiencia_2 = eficiencia2,
+    Eficiencia_3 = eficiencia3,
+    Eficiencia_4 = eficiencia4,
+    Consistencia_1 = consistencia1,
+    Consistencia_2 = consistencia2,
+    Consistencia_3 = consistencia3,
+    Consistencia_4 = consistencia4
+  )
+  
+  return(resultados)
+}
+
+# Paso 1: Generar resultados para diferentes tamaños de muestra
+resultados_n20 <- calcular_estimadores(20, parametro)
+resultados_n50 <- calcular_estimadores(50, parametro)
+resultados_n100 <- calcular_estimadores(100, parametro)
+resultados_n1000 <- calcular_estimadores(1000, parametro)
+
+# Paso 4: Crear un data frame con todos los resultados
+todos_los_resultados <- rbind(resultados_n20, resultados_n50, resultados_n100, resultados_n1000)
+
+# Paso 4: Mostrar los resultados y generar gráficos de caja
+print(todos_los_resultados)
+
+# Paso 4: Generar gráficos de caja
+boxplot(todos_los_resultados[, c("Estimador_1", "Estimador_2", "Estimador_3", "Estimador_4")],
+        main = "Gráficos de Caja de Estimadores",
+        xlab = "Estimadores",
+        ylab = "Valores")
+
+# Observación: Para evaluar las propiedades de los estimadores, revisa los valores de sesgo, eficiencia y consistencia en los resultados.
+```
