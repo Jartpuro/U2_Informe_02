@@ -14,6 +14,16 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+La simulación ayuda a entender y validad las propiedades de los estimadores estadísticos como son. insesgadez, eficiencia y la consistencia principalmente. El siguiente problema permite evidenciar las principales características de un grupo de estimadores propuestos para la estimación de un parámetro asociado a un modelo de probabilidad.
+
+Sean X1, X2, X3 y Xa, una muestra aleatoria de tamaño n = 4 cuya población la conforma una distribución exponencial con parámetro 8 desconocido. Determine las características de cada uno de los siguientes estimadores propuestos:
+
+![Problema I2](img/problema2.png)
+
+<h1>Propiedades de los estimadores </h1>
+
+
+
 <h2>Generar una muestra aleatoria de tamaño n </h2>
 ```{r, echo=TRUE}
 # Generar muestras de diferentes tamaños (n = 20, 50, 100, 1000)
