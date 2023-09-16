@@ -2,33 +2,42 @@
 title: "Informe_02"
 author: "Jhon Alexander Rojas Tavera"
 date: "2023-09-12"
-output: html_document
+output:
+  html_document:
+    toc: yes
+    toc_float: yes
+  pdf_document:
+    toc: yes
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
+<h2>Generar una muestra aleatoria de tamaño n </h2>
 ```{r, echo=TRUE}
-# Paso 1: Generar muestras de diferentes tamaños (n = 20, 50, 100, 1000)
+# Generar muestras de diferentes tamaños (n = 20, 50, 100, 1000)
 n_values <- c(20, 50, 100, 1000)
 
 ```
-```{r, echo=TRUE}
-# Paso 2: Definir el valor del parámetro desconocido
+
+<h2>Crear una función para calcular los estimadores</h2>
+```{r }
+# Definir el valor del parámetro desconocido
 parametro <- 8
 
 # Crear una función para calcular los estimadores
 calcular_estimadores <- function(n, parametro) {
-  # Paso 1: Generar una muestra aleatoria de tamaño n
+  # Generar una muestra aleatoria de tamaño n
   muestra <- rexp(n, rate = 1/parametro)
   
-  # Paso 3: Calcular los estimadores θ1, θ2, θ3 y θ4
+  # Calcular los estimadores θ1, θ2, θ3 y θ4
   estimador1 <- sum(muestra[1:4]) / sum(muestra[5:8])
   estimador2 <- sum(muestra[1:4] * c(1, 2, 3, 4)) / 5
   estimador3 <- sum(muestra[1:4]) / 4
   estimador4 <- (min(muestra) + max(muestra)) / 2
   
-  # Paso 2: Calcular el sesgo, la eficiencia y la consistencia de los estimadores
+  # Calcular el sesgo, la eficiencia y la consistencia de los estimadores
   sesgo1 <- mean(estimador1) - parametro
   sesgo2 <- mean(estimador2) - parametro
   sesgo3 <- mean(estimador3) - parametro
@@ -39,7 +48,7 @@ calcular_estimadores <- function(n, parametro) {
   var3 <- var(estimador3)
   var4 <- var(estimador4)
   
-  # Paso 2: Calcular el sesgo, la eficiencia y la consistencia de los estimadores
+  # Calcular el sesgo, la eficiencia y la consistencia de los estimadores
   eficiencia1 <- var1
   eficiencia2 <- var2
   eficiencia3 <- var3
@@ -50,7 +59,7 @@ calcular_estimadores <- function(n, parametro) {
   consistencia3 <- mean((estimador3 - parametro)^2)
   consistencia4 <- mean((estimador4 - parametro)^2)
   
-  # Paso 2: Crear un data frame con los resultados
+  # Crear un data frame con los resultados
   resultados <- data.frame(
     Tamaño_Muestra = n,
     Estimador_1 = estimador1,
@@ -74,23 +83,52 @@ calcular_estimadores <- function(n, parametro) {
   return(resultados)
 }
 
-# Paso 1: Generar resultados para diferentes tamaños de muestra
+```
+
+<h2>Resultado por estimadores</h2>
+```{r }
+# Generar resultados para diferentes tamaños de muestra
 resultados_n20 <- calcular_estimadores(20, parametro)
 resultados_n50 <- calcular_estimadores(50, parametro)
 resultados_n100 <- calcular_estimadores(100, parametro)
 resultados_n1000 <- calcular_estimadores(1000, parametro)
 
-# Paso 4: Crear un data frame con todos los resultados
+```
+
+<h2> Creación Dataframe</h2>
+```{r }
+# Crear un data frame con todos los resultados
 todos_los_resultados <- rbind(resultados_n20, resultados_n50, resultados_n100, resultados_n1000)
 
-# Paso 4: Mostrar los resultados y generar gráficos de caja
+```
+
+<h2> Visualización de datos</h2>
+```{r }
+# Mostrar los resultados y generar gráficos de caja
 print(todos_los_resultados)
 
-# Paso 4: Generar gráficos de caja
-boxplot(todos_los_resultados[, c("Estimador_1", "Estimador_2", "Estimador_3", "Estimador_4")],
-        main = "Gráficos de Caja de Estimadores",
-        xlab = "Estimadores",
-        ylab = "Valores")
+# Generar gráficos de caja con colores y etiquetas
+boxplot(
+  todos_los_resultados[, c("Estimador_1", "Estimador_2", "Estimador_3", "Estimador_4")],
+  main = "Gráficos de Caja de Estimadores",
+  xlab = "Estimadores",
+  ylab = "Valores",
+  col = c("red", "blue", "green", "purple"),  # Asignar colores a cada caja
+  names = c("Estimador θ1", "Estimador θ2", "Estimador θ3", "Estimador θ4")  # Etiquetas para cada caja
+)
 
-# Observación: Para evaluar las propiedades de los estimadores, revisa los valores de sesgo, eficiencia y consistencia en los resultados.
+
 ```
+
+<h2>Conclusión</h2>
+
+En este ejercicio se puede concluir que con un parámetro igual a 0:
+
+<li> Los estimadores θ1 y θ3 tienden a subestimar, mientras que θ2 y θ4 tienden a sobreestimar.</li>
+<li> Con el aumento del tamaño de la muestra, los sesgos disminuyen.</li>
+<li> No se pueden determinar eficiencia y consistencia desde los datos proporcionados.</li>
+
+
+<h2>Repositorio Github</h2>
+
+<p>Si quieres consultar el codigó de este informe puedes validarlo en este enlace:</p> <href>  </href>
